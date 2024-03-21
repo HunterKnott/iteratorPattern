@@ -44,6 +44,7 @@ public class MyArray<T> implements IterableSequence<T> {
 		return new MyIterator<>();
 	}
 	
+	@SuppressWarnings("hiding")
 	private class MyIterator<T> implements Iterator<T> {
 		private int currentIndex;
 		
