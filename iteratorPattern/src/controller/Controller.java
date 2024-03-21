@@ -17,7 +17,7 @@ public class Controller {
 		Iterator<Integer> intIterator = myIntArray.getIterator();
 		Predicate<Integer> evenPredicate = n -> n % 2 == 0;
 		
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings("unchecked") // Why is 1 printing?
 		Iterator<Integer> evenIntIterator = new FilterIterator<>(intIterator, evenPredicate);
 		while (!evenIntIterator.isDone()) {
 			System.out.println(evenIntIterator.current());
@@ -30,13 +30,53 @@ public class Controller {
 			myStringArray.add(word);
 		}
 		Iterator<String> stringIterator = myStringArray.getIterator();
-		Predicate<String> lengthPredicate = str -> str.length() > 5;
+		Predicate<String> lengthPredicate = str -> str.length() > 6;
 		
 		@SuppressWarnings("unchecked")
 		Iterator<String> longStringIterator = new FilterIterator<>(stringIterator, lengthPredicate);
 		while (!longStringIterator.isDone()) {
 			System.out.println(longStringIterator.current());
 			longStringIterator.next();
+		}
+		
+		// FilterIterator that filters results from another FilterIterator
+		System.out.println("\nFilterIterator filtering results from another FilterIterator:");
+		
+		@SuppressWarnings("unchecked") // Why is currentIndex starting at 5?
+		Iterator<String> filteredStringIterator = new FilterIterator<>(stringIterator, lengthPredicate);
+		
+		@SuppressWarnings("unchecked") // Why is currentIndex starting at 5?
+		Iterator<String> doubleFilteredStringIterator = new FilterIterator<>(filteredStringIterator, lengthPredicate);
+		while (!doubleFilteredStringIterator.isDone()) {
+			System.out.println(doubleFilteredStringIterator.current());
+			doubleFilteredStringIterator.next();
+		}
+		
+		// FilterIterator that filters out everything
+		System.out.println("\nFilterIterator that filters out everything:");
+		Predicate<Integer> alwaysFalsePredicate = n -> false;
+		
+		@SuppressWarnings("unchecked")
+		Iterator<Integer> emptyIntIterator = new FilterIterator<>(intIterator, alwaysFalsePredicate);
+		while (!emptyIntIterator.isDone()) {
+			System.out.println(emptyIntIterator.current());
+			emptyIntIterator.next();
+		}
+		
+		// ReverseIterator
+		System.out.println("\nReverseIterator with Integer elements:");
+		Iterator<Integer> reversedIntIterator = new ReverseIterator<>(intIterator);
+		while (!reversedIntIterator.isDone()) {
+			System.out.println(reversedIntIterator.current());
+			reversedIntIterator.next();
+		}
+		
+		// ReverseIterator that takes a FilterIterator
+		System.out.println("\nReverseIterator that takes a FilterIterator:");
+		Iterator<Integer> reversedFilteredIntIterator = new ReverseIterator<>(evenIntIterator);
+		while (!reversedFilteredIntIterator.isDone()) {
+			System.out.println(reversedFilteredIntIterator.current());
+			reversedFilteredIntIterator.next();
 		}
 	}
 }

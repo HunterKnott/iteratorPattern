@@ -1,6 +1,7 @@
 package controller;
 import java.util.function.Predicate;
 
+@SuppressWarnings("rawtypes")
 public class FilterIterator<T> implements Iterator {
 	private Iterator<T> iterator;
 	private Predicate<T> predicate;

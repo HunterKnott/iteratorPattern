@@ -1,47 +1,53 @@
 package controller;
-import java.util.Stack;
 
 public class ReverseIterator<T> implements Iterator<T> {
 	private Iterator<T> iterator;
-	private Stack<T> stack;
+	private int currentIndex;
 	
 	public ReverseIterator(Iterator<T> iterator) {
 		this.iterator = iterator;
-		this.stack = new Stack<>();
-		fillStack();
+		this.currentIndex = -1;
+		goToLast();
 	}
 	
-	private void fillStack() {
+	private void goToLast() {
+		iterator.first();
+		currentIndex = iterator.isDone() ? -1 : 0;
 		while (!iterator.isDone()) {
-			stack.push(iterator.current());
 			iterator.next();
+			currentIndex++;
 		}
+		currentIndex--;
 	}
 	
 	@Override
 	public void first() {
-		while (!stack.isEmpty()) {
-			stack.pop();
-		}
-		fillStack();
+		goToLast();
 	}
 	
 	@Override
 	public void next() {
-		if (!stack.isEmpty()) {
-			stack.pop();
+		if (currentIndex > 0) {
+			currentIndex--;
+		} else {
+			currentIndex = -1;
 		}
 	}
 	
 	@Override
 	public boolean isDone() {
-		return stack.isEmpty();
+		return currentIndex < 0;
 	}
 	
 	@Override
 	public T current() {
-		if (!stack.isEmpty()) {
-			return stack.peek();
+		if (!isDone()) {
+			Iterator<T> tempIterator = iterator;
+			tempIterator.first();
+			for (int i = 0; i < currentIndex; i++) {
+				tempIterator.next();
+			}
+			return tempIterator.current();
 		}
 		throw new IndexOutOfBoundsException("Iterator out of bounds.");
 	}
