@@ -8,8 +8,18 @@ public class Controller {
 		Integer[] numbers = {0,1,2,3,4,5,6,7,8,9};
 		String[] words = {"strawberry", "pineapple", "orange", "blueberry", "pitaya"};
 		
+		System.out.println("Numbers list:");
+		for (int number : numbers) {
+			System.out.println(number);
+		}
+		
+		System.out.println("\nWords list:");
+		for (String word : words) {
+		    System.out.println(word);
+		}
+		
 		// FilterIterator with 2 different data types
-		System.out.println("FilterIterator for Integers:");
+		System.out.println("\nFilterIterator for Integers (all even numbers):");
 		IterableSequence<Integer> myIntArray = new MyArray<>(numbers.length);
 		for (Integer number : numbers) {
 			myIntArray.add(number);
@@ -24,7 +34,7 @@ public class Controller {
 			evenIntIterator.next();
 		}
 		
-		System.out.println("\nFilterIterator for Strings:");
+		System.out.println("\nFilterIterator for Strings (length greater than 6):");
 		IterableSequence<String> myStringArray = new MyArray<>(words.length);
 		for (String word : words) {
 			myStringArray.add(word);
@@ -40,7 +50,7 @@ public class Controller {
 		}
 		
 		// FilterIterator that filters results from another FilterIterator
-		System.out.println("\nFilterIterator filtering results from another FilterIterator:");
+		System.out.println("\nFilterIterator filtering results from another FilterIterator (word ending in 'y'):");
 		
 		stringIterator.first();
 		Predicate<String> lastLetterPredicate = str -> str.endsWith("y");
@@ -77,7 +87,7 @@ public class Controller {
 		}
 		
 		// ReverseIterator that takes a FilterIterator
-		System.out.println("\nReverseIterator that takes a FilterIterator:");
+		System.out.println("\nReverseIterator that takes a FilterIterator (all even numbers):");
 		Iterator<Integer> reversedFilteredIntIterator = new ReverseIterator<>(evenIntIterator);
 		while (!reversedFilteredIntIterator.isDone()) {
 			System.out.println(reversedFilteredIntIterator.current());
