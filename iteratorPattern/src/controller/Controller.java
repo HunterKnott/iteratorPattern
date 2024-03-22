@@ -5,7 +5,7 @@ public class Controller {
 	public void run() {
 		
 		// Example test data
-		Integer[] numbers = {1,2,3,4,5,6,7,8,9};
+		Integer[] numbers = {0,1,2,3,4,5,6,7,8,9};
 		String[] words = {"strawberry", "pineapple", "orange", "blueberry", "pitaya"};
 		
 		// FilterIterator with 2 different data types
@@ -17,7 +17,7 @@ public class Controller {
 		Iterator<Integer> intIterator = myIntArray.getIterator();
 		Predicate<Integer> evenPredicate = n -> n % 2 == 0;
 		
-		@SuppressWarnings("unchecked") // Why is 1 printing?
+		@SuppressWarnings("unchecked")
 		Iterator<Integer> evenIntIterator = new FilterIterator<>(intIterator, evenPredicate);
 		while (!evenIntIterator.isDone()) {
 			System.out.println(evenIntIterator.current());
@@ -42,10 +42,15 @@ public class Controller {
 		// FilterIterator that filters results from another FilterIterator
 		System.out.println("\nFilterIterator filtering results from another FilterIterator:");
 		
-		@SuppressWarnings("unchecked") // Why is currentIndex starting at 5?
-		Iterator<String> filteredStringIterator = new FilterIterator<>(stringIterator, lengthPredicate);
+		stringIterator.first();
+		Predicate<String> lastLetterPredicate = str -> str.endsWith("y");
 		
-		@SuppressWarnings("unchecked") // Why is currentIndex starting at 5?
+		@SuppressWarnings("unchecked")
+		Iterator<String> filteredStringIterator = new FilterIterator<>(stringIterator, lastLetterPredicate);
+		
+		filteredStringIterator.first();
+		
+		@SuppressWarnings("unchecked")
 		Iterator<String> doubleFilteredStringIterator = new FilterIterator<>(filteredStringIterator, lengthPredicate);
 		while (!doubleFilteredStringIterator.isDone()) {
 			System.out.println(doubleFilteredStringIterator.current());
